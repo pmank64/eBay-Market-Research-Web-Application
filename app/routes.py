@@ -13,10 +13,10 @@ def before_request():
         db.session.commit()
 
 @app.route('/')
-@app.route('/index.html')
-@login_required
-def hello_world():
-    return render_template('index.html')
+@app.route('/index')
+# @login_required
+def index():
+    return render_template('index.html', title='Home')
 
 
 @app.route('/login', methods=['GET', 'POST'])
