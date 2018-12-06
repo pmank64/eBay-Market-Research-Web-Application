@@ -1,5 +1,51 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-        <h1> Welcome !!</h1>
+{% if current_user.is_authenticated %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <ul>
+                <button class="btn btn-primary mb-4 mt-4" type="submit">Inventory</button>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Shipment</button>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Listings</button>
+                <br>
+                <a href="/itemSearch"><button class="btn btn-primary mb-4" type="submit">Compare Prices</button></a>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Account Settings</button>
+            </ul>
+        </div>
+        <div class="col-10">
+        <h1> Welcome {{  current_user.username }}!!</h1>
+
+<h2>Your Recent Listings:</h2>
+   <div class="card-columns">
+    {% for x in range(10) %}
+{#        {% if itemData[x]["SellingStatus"][0]["SellingStatus"][0] == "" %}#}
+  <div class="card">
+    <img class="card-img-top w-25" src="{{ itemData[x]["galleryURL"][0] }}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
+      <p class="card-text">
+          <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
+            <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
+      </p>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+
+
+
+        </div>
+    </div>
+</div>
+    {% endif %}
+    {% if not current_user.is_authenticated %}
+        <div class="container-fluid">
+            <h1> Login or Register to Get Started</h1>
+        </div>
+    {% endif %}
 {% endblock %}

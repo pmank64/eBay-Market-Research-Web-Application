@@ -2,11 +2,24 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <div class="row pb-5 pt-5">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <ul>
+                <button class="btn btn-primary mb-4 mt-4" type="submit">Inventory</button>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Shipment</button>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Listings</button>
+                <br>
+                <a href="/itemSearch"><button class="btn btn-primary mb-4" type="submit">Compare Prices</button></a>
+                <br>
+                <button class="btn btn-primary mb-4" type="submit">Account Settings</button>
+            </ul>
         </div>
-    </div>
+        <div class="col-10">
+                 {{ wtf.quick_form(form) }}
     <div class="card-columns">
     {% for x in range(10) %}
 {#        {% if itemData[x]["SellingStatus"][0]["SellingStatus"][0] == "" %}#}
@@ -22,4 +35,21 @@
   </div>
     {% endfor %}
 </div>
+        </div>
+    </div>
+    </div>
+
+{#    #}
+{#    <div class="left-nav h-100" style="width:30px; background-color: red">#}
+{##}
+{#    #}
+{##}
+{#    </div>#}
+
+
+
+
+
+
+
 {% endblock %}

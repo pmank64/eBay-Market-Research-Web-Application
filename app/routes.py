@@ -6,6 +6,7 @@ from werkzeug.urls import url_parse
 from app.models import User
 from app.forms import LoginForm, RegistrationForm, SearchForm
 import urllib.request, json
+import random
 
 @app.before_request
 def before_request():
@@ -17,6 +18,19 @@ def before_request():
 @app.route('/index')
 # @login_required
 def index():
+    if current_user.is_authenticated:
+        keywordList = ["macbook+pro", "windows+10", "books", "fishing+pole", "inner+tube"]
+        keyword = keywordList[random.randint(0,4)]
+        APPID = "PeterMan-peterman-PRD-c13dad11d-1a18c02a"
+        url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
+        itemlist = []
+        with urllib.request.urlopen(url) as url:
+            data = json.loads(url.read().decode())
+            x = 0
+            while x < 10:
+                itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][x])
+                x = x + 1
+        return render_template('index.html', title='Home', itemData=itemlist)
     return render_template('index.html', title='Home')
 
 
