@@ -30,3 +30,8 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+
+class SearchForm(FlaskForm):
+    search_term = StringField('Enter Search', validators=[DataRequired()])
+    submit = SubmitField('Search')

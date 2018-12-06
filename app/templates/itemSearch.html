@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <div class="row pb-5 pt-5">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+    <div class="card-columns">
+    {% for x in range(10) %}
+{#        {% if itemData[x]["SellingStatus"][0]["SellingStatus"][0] == "" %}#}
+  <div class="card">
+    <img class="card-img-top w-25" src="{{ itemData[x]["galleryURL"][0] }}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
+      <p class="card-text">
+          <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
+            <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
+      </p>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+{% endblock %}

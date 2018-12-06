@@ -4,7 +4,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from datetime import datetime
 from werkzeug.urls import url_parse
 from app.models import User
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, SearchForm
+import urllib.request, json
 
 @app.before_request
 def before_request():
@@ -72,5 +73,22 @@ if __name__ == '__main__':
     app.run()
 
 
+@app.route('/itemSearch', methods=['GET', 'POST'])
+def search():
+    keyword = "computer+windows+10"
+    form = SearchForm(request.form)
+    if form.validate_on_submit():
+        keyword = form.search_term.data.replace(" ", "+")
+    APPID = "PeterMan-peterman-PRD-c13dad11d-1a18c02a"
+    url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
+    itemlist = []
+    with urllib.request.urlopen(url) as url:
+        data = json.loads(url.read().decode())
+        x = 0
+        while x < 10:
+            itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][x])
+            x = x + 1
+    return render_template('itemSearch.html', title='Item Search', itemData=itemlist, form=form)
 
 
+    # https://open.api.ebay.com/shopping?callname=GetAccount&appid=PeterMan-peterman-PRD-c13dad11d-1a18c02a&version=1063&siteid=0&responseencoding=JSON
