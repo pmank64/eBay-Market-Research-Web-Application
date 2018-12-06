@@ -32,6 +32,7 @@
           <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
             <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
       </p>
+        <a href="{{ itemData[x]["viewItemURL"][0] }}"><button class="btn btn-primary" type="submit">View Item</button></a>
     </div>
   </div>
     {% endfor %}
