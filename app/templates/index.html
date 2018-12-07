@@ -3,21 +3,8 @@
 {% block app_content %}
 {% if current_user.is_authenticated %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <ul>
-                <button class="btn btn-primary mb-4 mt-4" type="submit">Inventory</button>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Shipment</button>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Listings</button>
-                <br>
-                <a href="/itemSearch"><button class="btn btn-primary mb-4" type="submit">Compare Prices</button></a>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Account Settings</button>
-            </ul>
-        </div>
-        <div class="col-10">
+
+    <div class="col-10 float-right">
         <h1> Welcome {{  current_user.username }}!!</h1>
 
 <h2>Your Recent Listings:</h2>
@@ -37,16 +24,13 @@
   </div>
     {% endfor %}
 </div>
-
-
-
-        </div>
     </div>
-</div>
     {% endif %}
     {% if not current_user.is_authenticated %}
         <div class="container-fluid">
             <h1> Login or Register to Get Started</h1>
         </div>
     {% endif %}
+
+</div>
 {% endblock %}

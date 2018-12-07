@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, SelectMultipleField
+from wtforms import  FloatField, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, SelectMultipleField
 from wtforms.validators import DataRequired
 from app.models import User
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, AnyOf
@@ -35,3 +35,9 @@ class RegistrationForm(FlaskForm):
 class SearchForm(FlaskForm):
     search_term = StringField('Enter Search', validators=[DataRequired()])
     submit = SubmitField('Search')
+
+class ItemForm(FlaskForm):
+    item_name = StringField('Enter Item Name', validators=[DataRequired()])
+    item_price = FloatField('Enter Item Price', validators=[DataRequired()])
+    item_category = StringField('Enter Category', validators=[DataRequired()])
+    submit = SubmitField("Add")

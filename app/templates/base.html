@@ -16,31 +16,31 @@
     <ul class="navbar-nav mr-auto">
          {% if current_user.is_authenticated %}
       <li class="nav-item active">
-        <a class="nav-link" href="/dashboard">Dashboard</a>
+        <a class="nav-link" href={{  url_for('index') }}>Dashboard</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
+        <a class="nav-link" href={{ url_for('logout') }}>Logout</a>
       </li>
         </li>
          {% endif %}
     {% if not current_user.is_authenticated %}
         <li class="nav-item">
-        <a class="nav-link" href="/register">Register</a>
+        <a class="nav-link" href={{ url_for('register') }}>Register</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/features">Features</a>
+        <a class="nav-link" href="#">Features</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/pricing">Pricing</a>
+        <a class="nav-link" href="#">Pricing</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/about">About</a>
+        <a class="nav-link" href="#">About</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/contact">Contact</a>
+        <a class="nav-link" href="#">Contact</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href={{ url_for('login') }}>Login</a>
       </li>
      {% endif %}
     </ul>
@@ -60,6 +60,30 @@
 
 {% endif %}
 {% endwith %}
-    {% block app_content %}{% endblock %}
     </div>
+
+    {% if current_user.is_authenticated %}
+    <div class="container-fluid border-right border-dark col-2 float-left">
+    <div class="row nav-fill nav-pills">
+        <ul class="text-center">
+            <br>
+            <a class="nav-link active" href={{ url_for('inventory') }}>Inventory</a>
+            <br>
+            <a class="nav-link active" href="#">Shipment</a>
+            <br>
+            <a class="nav-link active" href="#">Listing</a>
+            <br>
+            <a class="nav-link active" href={{ url_for('search')}}>Compare Prices</a>
+            <br>
+            <a class="nav-link active" href="#">Account Settings</a>
+            <br>
+        </ul>
+
+    </div>
+    </div>
+    {% endif %}
+    {% block app_content %} {% endblock %}
+
+
+
 {% endblock %}

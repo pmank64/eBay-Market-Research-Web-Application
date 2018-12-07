@@ -3,8 +3,8 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from datetime import datetime
 from werkzeug.urls import url_parse
-from app.models import User
-from app.forms import LoginForm, RegistrationForm, SearchForm
+from app.models import User, Item
+from app.forms import LoginForm, RegistrationForm, SearchForm, ItemForm
 import urllib.request, json
 import random
 
@@ -106,3 +106,19 @@ def search():
 
 
     # https://open.api.ebay.com/shopping?callname=GetAccount&appid=PeterMan-peterman-PRD-c13dad11d-1a18c02a&version=1063&siteid=0&responseencoding=JSON
+
+@app.route('/inventory.html', methods=['GET', 'POST'])
+def inventory():
+
+    form = ItemForm(request.form)
+
+    if form.validate_on_submit():
+        new_item = Item(item_name=form.item_name.data, item_price=form.item_price.data,
+                        item_category=form.item_category.data, user_id=current_user.id)
+        db.session.add(new_item)
+        db.session.commit()
+        flash('Item added to inventory')
+        return redirect(url_for('inventory'))
+
+    return render_template('inventory.html', title='Inventory', form=form)
+

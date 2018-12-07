@@ -3,24 +3,10 @@
 
 {% block app_content %}
 
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <ul>
-                <button class="btn btn-primary mb-4 mt-4" type="submit">Inventory</button>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Shipment</button>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Listings</button>
-                <br>
-                <a href="/itemSearch"><button class="btn btn-primary mb-4" type="submit">Compare Prices</button></a>
-                <br>
-                <button class="btn btn-primary mb-4" type="submit">Account Settings</button>
-            </ul>
-        </div>
-        <div class="col-10">
+    <div class="col-10 offset-2 ">
                  {{ wtf.quick_form(form) }}
     <div class="card-columns">
+    <br>
     {% for x in range(10) %}
 {#        {% if itemData[x]["SellingStatus"][0]["SellingStatus"][0] == "" %}#}
   <div class="card">
@@ -37,7 +23,7 @@
   </div>
     {% endfor %}
 </div>
-        </div>
+    </div>
     </div>
     </div>
 
