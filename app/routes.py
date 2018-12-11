@@ -184,7 +184,6 @@ def listings():
     if current_user.is_authenticated:
         user_id = current_user.id
         items = Item.query.filter_by(user_id=user_id).all()
-
         return render_template('listings.html', title='Listings', items=items)
 
     return render_template('listings.html', title='Listings')
