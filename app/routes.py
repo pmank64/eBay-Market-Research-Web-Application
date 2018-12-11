@@ -122,3 +122,26 @@ def inventory():
 
     return render_template('inventory.html', title='Inventory', form=form)
 
+
+@app.route('/features.html')
+def features():
+
+    return render_template('features.html', title='Features')
+
+
+@app.route('/pricing.html')
+def pricing():
+
+    return render_template('pricing.html', title='Pricing')
+
+
+@app.route('/about.html')
+def about():
+
+    return render_template('about.html', title='About')
+
+
+@app.route('/contact.html')
+def contact():
+
+    return render_template('contact.html', title='Contact')

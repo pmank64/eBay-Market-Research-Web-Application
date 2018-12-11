@@ -1,0 +1,36 @@
+head{
+    background-color: azure;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: 36px;
+}
+
+h1, h2, h3{
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: x-large;
+    color: black;
+
+}
+
+h4, h5, h6{
+     font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: medium;
+    color: black;
+}
+
+p{
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: smaller;
+    color: black;
+}
+
+body {
+    padding: 20px;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: 16px;
+    background-color: #b0fff8;
+    margin: 10px;
+}
+
+li {
+    font-size: smaller;
+}
