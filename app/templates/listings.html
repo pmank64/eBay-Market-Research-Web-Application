@@ -13,7 +13,12 @@
                 <h2>Item - Price</h2>
                 {% for item in items %}
                     <ul class="list-group list-group-flush col-md-3">
-                    <li class="list-group-item">{{ item.item_name }}  - ${{ item.item_price }} <button type="button" class="btn btn-success float-right">List</button></li>
+                    <li class="list-group-item">{{ item.item_name }}  - ${{ item.item_price }}
+                        <form action="/deleteItem" name="item-inventory">
+                            <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
+                            <input type="submit" value="Delete" class="btn btn-info mt-3">
+                        </form>
+                    </li>
                     </ul>
                 {% endfor %}
 

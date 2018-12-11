@@ -22,6 +22,10 @@
                   </ul>
                     </p>
                     <a href="{{ item.ebay_item_url }}" class="btn btn-primary">View Item</a>
+                    <form action="/deleteFromWatchList" name="delete-watchlist">
+                            <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
+                            <input type="submit" value="Delete" class="btn btn-info mt-3">
+                    </form>
 
                     </div>
                       </div>

@@ -187,3 +187,24 @@ def listings():
         return render_template('listings.html', title='Listings', items=items)
 
     return render_template('listings.html', title='Listings')
+
+
+@app.route('/deleteItem', methods=['GET','POST'])
+def deleteItem():
+
+    id = request.args.get('item_id')
+    item = Item.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+    flash("item delete")
+    return redirect('listings.html')
+
+@app.route('/deleteFromWatchList', methods=['GET','POST'])
+def deleteWatchList():
+
+    id = request.args.get('item_id')
+    item = WatchList.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+    flash("Item delete")
+    return redirect('watchlist.html')
