@@ -71,7 +71,7 @@
             <br>
             <a class="nav-link active" href={{ url_for('watchlist') }}>Watch List</a>
             <br>
-            <a class="nav-link active" href="#">Listing</a>
+            <a class="nav-link active" href={{ url_for('listings') }}>Listing</a>
             <br>
             <a class="nav-link active" href={{ url_for('search')}}>Compare Prices</a>
             <br>
@@ -83,7 +83,5 @@
     </div>
     {% endif %}
     {% block app_content %} {% endblock %}
-
-
 
 {% endblock %}
