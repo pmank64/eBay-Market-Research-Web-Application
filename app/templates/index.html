@@ -1,37 +1,38 @@
 {% extends "base.html" %}
 
+
 {% block app_content %}
-{% if current_user.is_authenticated %}
-<div class="container-fluid">
-
-    <div class="col-10 float-right">
-        <h1> Welcome {{  current_user.username }}!!</h1>
-
-<h2>Your Recent Listings:</h2>
-   <div class="card-columns">
-    {% for x in range(10) %}
-{#        {% if itemData[x]["SellingStatus"][0]["SellingStatus"][0] == "" %}#}
-  <div class="card">
-    <img class="card-img-top w-25" src="{{ itemData[x]["galleryURL"][0] }}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
-      <p class="card-text">
-          <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
-            <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
-      </p>
-        <a href="{{ itemData[x]["viewItemURL"][0] }}"><button class="btn btn-primary" type="submit">View Item</button></a>
-    </div>
-  </div>
-    {% endfor %}
-</div>
-    </div>
-    {% endif %}
-    {% if not current_user.is_authenticated %}
+    {% if current_user.is_authenticated %}
         <div class="container-fluid">
-        <br>
-            <h1>Check out what is available! Login in or register to get started.</h1>
+        <div class="col-10 float-right">
+            <h1> Welcome {{ current_user.username }}!!</h1>
+            <h2>Your Recent Listings:</h2>
+            <div class="card-columns">
+                {% for x in range(10) %}
+                    <div class="card">
+                    {% if 'galleryURL' in itemData[x] %}
+                        <img class="card-img-top w-25" src="{{ itemData[x]["galleryURL"][0] }}" alt="Card image cap">
+                    {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
+                            <p class="card-text">
+                            <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
+                            <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
+                            </p>
+                            <a href="{{ itemData[x]["viewItemURL"][0] }}" target=”_blank”>
+                                <button class="btn btn-primary" type="submit">View Item</button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
-
+{% if not current_user.is_authenticated %}
+    <div class="container-fluid">
+        <br>
+        <h1>Check out what is available! Login in or register to get started.</h1>
+    </div>
+{% endif %}
 </div>
 {% endblock %}

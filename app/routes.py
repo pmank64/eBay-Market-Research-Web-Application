@@ -104,24 +104,41 @@ def getItem():
 
 @app.route('/itemSearch', methods=['GET', 'POST'])
 def search():
-    keyword = "computer+windows+10"
+    keyword = "windows+10"
+    filter = ""
     form = SearchForm(request.form)
-
     if form.validate_on_submit():
         keyword = form.search_term.data.replace(" ", "+")
-
+        filter = form.filter.data
     APPID = "PeterMan-peterman-PRD-c13dad11d-1a18c02a"
     url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
     itemlist = []
     with urllib.request.urlopen(url) as url:
         data = json.loads(url.read().decode())
-        x = 0
-        while x < 10:
-            itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][x])
-            x = x + 1
+        arraylength = int(data["findCompletedItemsResponse"][0]["searchResult"][0]["@count"])
+        if arraylength >= 30:
+            arraylength = 30
+        # flash(data["findCompletedItemsResponse"][0]["searchResult"][0]["@count"])
+        count = 0
+        notInList = 0
+        if arraylength > 0:
+            while count < arraylength:
+                if filter == 'S':
+                    if data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][count]["sellingStatus"][0]["sellingState"][0] == "EndedWithSales":
+                        itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][count])
+                    else:
+                        notInList = notInList + 1
+                elif filter == 'U':
+                    if data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][count]["sellingStatus"][0]["sellingState"][0] == "EndedWithoutSales":
+                        itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][count])
+                    else:
+                        notInList = notInList + 1
+                else:
+                    itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][count])
+                count = count+1
         colorList = ["border-danger", "border-success"]
-
-    return render_template('itemSearch.html', title='Item Search', itemData=itemlist, form=form, color=colorList)
+        arraylength = arraylength - notInList
+    return render_template('itemSearch.html', title='Item Search', itemData=itemlist, form=form, color=colorList, arraylength=arraylength)
 
 
     # https://open.api.ebay.com/shopping?callname=GetAccount&appid=PeterMan-peterman-PRD-c13dad11d-1a18c02a&version=1063&siteid=0&responseencoding=JSON
@@ -150,7 +167,12 @@ def watchlist():
         user_id = current_user.id
         items = WatchList.query.filter_by(user_id=user_id).all()
 
-        return render_template('watchlist.html', title='Watch List', items=items)
+        checker = False
+        results = WatchList.query.filter_by(user_id=1).all()
+        if len(results) == 0:
+            checker = True
+
+        return render_template('watchlist.html', title='Watch List', items=items, checker=checker)
     return render_template('watchlist.html', title='Watch List')
 
 

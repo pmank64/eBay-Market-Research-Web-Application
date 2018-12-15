@@ -2,27 +2,24 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 
-    {% block app_content %}
-
-        <br>
-        <h1> Listings </h1>
-        <br>
-        <div class="row">
-            <div class="col-md offset-md-1" >
-
-                <h2>Item - Price</h2>
-                {% for item in items %}
-                    <ul class="list-group list-group-flush col-md-3">
-                    <li class="list-group-item">{{ item.item_name }}  - ${{ item.item_price }}
+{% block app_content %}
+    <br>
+    <h1> Listings </h1>
+    <br>
+    <div class="row">
+        <div class="col-md offset-md-1">
+            <h2>Item - Price</h2>
+            {% for item in items %}
+                <ul class="list-group list-group-flush col-md-3">
+                    <li class="list-group-item">{{ item.item_name }} - ${{ item.item_price }}
                         <form action="/deleteItem" name="item-inventory">
                             <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
                             <input type="submit" value="Delete" class="btn btn-info mt-3">
                         </form>
                     </li>
-                    </ul>
-                {% endfor %}
+                </ul>
+            {% endfor %}
 
-            </div>
         </div>
-
-    {% endblock %}
+    </div>
+{% endblock %}

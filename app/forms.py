@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import  FloatField, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, SelectMultipleField, HiddenField
+from wtforms import  FloatField, StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField, SelectMultipleField, HiddenField, RadioField
 from wtforms.validators import DataRequired
 from app.models import User
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional, AnyOf
@@ -34,6 +34,7 @@ class RegistrationForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     search_term = StringField('Enter Search', validators=[DataRequired()])
+    filter = RadioField('Filter', choices=[('A', 'All'), ('S', 'Ended With Sales'), ('U', 'Ended Without Sales')], default='A')
     submit = SubmitField('Search')
 
 class ItemForm(FlaskForm):

@@ -2,40 +2,37 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<div class="row">
+    <div class="row">
         <div class="col-12">
+            {% if checker %}
+                <h1>There are no items in your watchlist</h1>
+            {% endif %}
             {% for item in items %}
-               <div class="card mt-4 mb-4">
-                  <div class="card-body">
-
-                      <div class="row">
-                          <div class="col-2">
-                              <img src={{ item.img_url }} class="img-fluid">
-                          </div>
-        <div class="col-10">
-                    <h5 class="card-title">{{ item.item_title }}</h5>
-                    <p class="card-text">
-                        <ul>
-                      <li>Category: {{  item.item_category }}</li>
-                      <li>Price: {{  item.item_price }}</li>
-                      <li>Selling State: {{  item.selling_state }}</li>
-                  </ul>
-                    </p>
-                    <a href="{{ item.ebay_item_url }}" class="btn btn-primary">View Item</a>
-                    <form action="/deleteFromWatchList" name="delete-watchlist">
-                            <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
-                            <input type="submit" value="Delete" class="btn btn-info mt-3">
-                    </form>
-
+                <div class="card mt-4 mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src={{ item.img_url }} class="img-fluid">
+                            </div>
+                            <div class="col-10">
+                                <h5 class="card-title">{{ item.item_title }}</h5>
+                                <p class="card-text">
+                                <ul>
+                                    <li>Category: {{ item.item_category }}</li>
+                                    <li>Price: {{ item.item_price }}</li>
+                                    <li>Selling State: {{ item.selling_state }}</li>
+                                </ul>
+                                </p>
+                                <a href="{{ item.ebay_item_url }}" target=”_blank” class="btn btn-primary">View Item</a>
+                                <form action="/deleteFromWatchList" name="delete-watchlist">
+                                    <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
+                                    <input type="submit" value="Delete" class="btn btn-info mt-3">
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                      </div>
-
-                  </div>
                 </div>
-
             {% endfor %}
         </div>
-</div>
-
-
+    </div>
 {% endblock %}
