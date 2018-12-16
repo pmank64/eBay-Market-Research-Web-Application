@@ -16,8 +16,6 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 bootstrap = Bootstrap(app)
-csrf = CSRFProtect(app)
-csrf.init_app(app)
 
 def create_app(config_class=Config):
     # ...

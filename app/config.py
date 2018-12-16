@@ -8,8 +8,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    WTF_CSRF_SECRET_KEY = os.environ.get('SECRET_KEY') or 'YOU-will-never-guess'
-    WTF_CSRF_METHODS = ['POST', 'GET']
-
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
