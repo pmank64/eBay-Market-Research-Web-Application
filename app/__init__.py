@@ -7,14 +7,15 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
-
+from flask_wtf.csrf import CSRFProtect, CSRFError
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
-# login.login_view = 'login'
+login.login_view = 'login'
+csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
 
 def create_app(config_class=Config):
@@ -41,5 +42,6 @@ def create_app(config_class=Config):
         app.logger.info('Microblog startup')
 
     return app
+
 
 from app import routes, models
