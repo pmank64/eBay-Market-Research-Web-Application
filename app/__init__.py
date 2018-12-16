@@ -15,7 +15,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
-csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
 
 def create_app(config_class=Config):
