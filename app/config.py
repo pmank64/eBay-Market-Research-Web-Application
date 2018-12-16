@@ -9,7 +9,8 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    WTF_CSRF_SECRET_KEY = 'YOU-will-never-guess'
+    WTF_CSRF_SECRET_KEY = os.environ.get('SECRET_KEY') or 'YOU-will-never-guess'
+
 
 class Config(object):
         # ...
