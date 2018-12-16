@@ -8,8 +8,7 @@
             <br>
             <h1>Register</h1>
             <br>
-            {{ form.csrf_token }}
-            {{ wtf.quick_form(form) }}
+            {{ wtf.quick_form(form.csrf_token) }}
             <br>
         </div>
     </div>
