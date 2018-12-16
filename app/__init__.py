@@ -19,6 +19,8 @@ bootstrap = Bootstrap(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
 
+app.config.setdefault('WTF_CSRF_METHODS', ['POST', 'GET'])
+
 def create_app(config_class=Config):
     # ...
     if not app.debug and not app.testing:

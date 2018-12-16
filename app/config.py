@@ -10,7 +10,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     WTF_CSRF_SECRET_KEY = os.environ.get('SECRET_KEY') or 'YOU-will-never-guess'
-    WTF_CSRF_ENABLED = False
+
 
 
 class Config(object):
