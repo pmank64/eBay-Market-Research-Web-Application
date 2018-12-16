@@ -8,6 +8,7 @@
             <br>
             <h1>Sign In</h1>
             <br>
+            {{ form.csrf_token }}
             {{ wtf.quick_form(form) }}
             <br>
             <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
