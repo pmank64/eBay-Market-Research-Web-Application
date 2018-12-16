@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, csrf
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from datetime import datetime
@@ -57,7 +57,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
+@csrf.exepmt
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
