@@ -145,7 +145,6 @@ def search():
 
 
 
-
 @app.route('/inventory.html', methods=['GET', 'POST'])
 def inventory():
 
@@ -160,6 +159,7 @@ def inventory():
         return redirect(url_for('inventory'))
 
     return render_template('inventory.html', title='Inventory', form=form)
+
 
 @app.route('/watchlist.html', methods=['GET', 'POST'])
 def watchlist():
@@ -206,7 +206,8 @@ def listings():
     if current_user.is_authenticated:
         user_id = current_user.id
         items = Item.query.filter_by(user_id=user_id).all()
-        return render_template('listings.html', title='Listings', items=items)
+        item_count = len(items)
+        return render_template('listings.html', title='Listings', items=items, item_count=item_count)
 
     return render_template('listings.html', title='Listings')
 
@@ -220,6 +221,7 @@ def deleteItem():
     db.session.commit()
     flash("item delete")
     return redirect('listings.html')
+
 
 @app.route('/deleteFromWatchList', methods=['GET','POST'])
 def deleteWatchList():
