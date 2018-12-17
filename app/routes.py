@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from datetime import datetime
 from werkzeug.urls import url_parse
 from app.models import User, Item, WatchList
-from app.forms import LoginForm, RegistrationForm, SearchForm, ItemForm
+from app.forms import LoginForm, RegistrationForm, SearchForm, ItemForm, AccountChange, EmailChange, StoreChange
 import urllib.request, json
 import random
 
@@ -239,3 +239,36 @@ def deleteWatchList():
     db.session.commit()
     flash("Item delete")
     return redirect('watchlist.html')
+
+
+
+@app.route('/accountSettings', methods=['GET', 'POST'])
+def account_settings():
+
+    accountForm = AccountChange(request.form)
+
+    if accountForm.validate_on_submit():
+        current_name = accountForm.current_account_name.data
+        new_name = accountForm.new_account_name.data
+        confirm_name = accountForm.confirm_new_name.data
+
+
+        check_username = User.query.filter_by(username=new_name).first()
+
+
+        if current_name != current_user.username:
+            flash("Current Username doesn't match")
+            redirect(url_for('account_settings'))
+        elif new_name != confirm_name:
+            flash("New Username doesn't match")
+            redirect(url_for('account_settings'))
+        elif current_name == current_user.username and new_name == confirm_name:
+            if check_username is None:
+                user = User.query.get(current_user.id)
+                user.username = new_name
+                db.session.commit()
+            else:
+                flash("Username already taken")
+                redirect('account_settings')
+
+    return render_template('accountSettings.html', title="Account Settings", accountForm=accountForm)
