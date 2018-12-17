@@ -22,15 +22,26 @@ def index():
         keywordList = ["macbook+pro", "windows+10", "books", "fishing+pole", "inner+tube"]
         keyword = keywordList[random.randint(0,4)]
         APPID = "PeterMan-peterman-PRD-c13dad11d-1a18c02a"
-        url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
+
+        ebay_store = current_user.ebay_store
+
+        newurl = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsIneBayStores&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=PeterMan-peterman-PRD-c13dad11d-1a18c02a&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&storeName=" + ebay_store + "&outputSelector=StoreInfo&itemFilter(0).name=MinPrice&itemFilter(0).value=11.00&itemFilter(0).paramName=Currency&itemFilter(0).paramValue=USD&itemFilter(1).name=MaxPrice&itemFilter(1).value=25.00&itemFilter(1).paramName=Currency&itemFilter(1).paramValue=USD&paginationInput.entriesPerPage=10";
+
+        totalValue = 0.0
+        averageValue = 0
+
+        # url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
         itemlist = []
-        with urllib.request.urlopen(url) as url:
-            data = json.loads(url.read().decode())
+        with urllib.request.urlopen(newurl) as newurl:
+            data = json.loads(newurl.read().decode())
             x = 0
             while x < 10:
-                itemlist.append(data["findCompletedItemsResponse"][0]["searchResult"][0]["item"][x])
+                itemlist.append(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][x])
+                totalValue += float(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][x]["sellingStatus"][0]["currentPrice"][0]["__value__"])
                 x = x + 1
-        return render_template('index.html', title='Home', itemData=itemlist)
+        arraylength = int(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["@count"])
+        averageValue = totalValue/arraylength
+        return render_template('index.html', title='Home', itemData=itemlist, totalValue=totalValue, averageValue=averageValue)
     return render_template('index.html', title='Home')
 
 
@@ -64,7 +75,8 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        store = form.ebay_store.data.replace(" ", "+")
+        user = User(username=form.username.data, email=form.email.data, ebay_store=store)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

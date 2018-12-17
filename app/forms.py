@@ -16,6 +16,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    ebay_store = StringField('Ebay Store Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -42,3 +43,9 @@ class ItemForm(FlaskForm):
     item_price = FloatField('Enter Item Price', validators=[DataRequired()])
     item_category = StringField('Enter Category', validators=[DataRequired()])
     submit = SubmitField("Add")
+
+# class SearchByStore(FlaskForm):
+#     store_name = StringField('Enter The Store Name', validators=[DataRequired()])
+#     item_price = FloatField('Enter Item Price', validators=[DataRequired()])
+#     item_category = StringField('Enter Category', validators=[DataRequired()])
+#     submit = SubmitField("Add")
