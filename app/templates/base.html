@@ -1,86 +1,113 @@
 {% extends "bootstrap/base.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap1.css') }}">
+{% endblock %}
+
 {% block title %}
     {% if title %}{{ title }} - eBay Dashboard{% else %}Welcome to eBay Dashboard{% endif %}
 {% endblock %}
 
 
-{% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/index">eBay Dashboard</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-         {% if current_user.is_authenticated %}
-      <li class="nav-item active">
-        <a class="nav-link" href={{  url_for('index') }}>Dashboard</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href={{ url_for('logout') }}>Logout</a>
-      </li>
-        </li>
-         {% endif %}
-    {% if not current_user.is_authenticated %}
-        <li class="nav-item">
-        <a class="nav-link" href={{ url_for('register') }}>Register</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('features') }}">Features</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('pricing') }}">Pricing</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('about') }}">About</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link" href={{ url_for('login') }}>Login</a>
-      </li>
-     {% endif %}
-    </ul>
-  </div>
-</nav>
+
+{% block navbar %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/index">eBay Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href={{ url_for('index') }}>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ url_for('logout') }}>Logout</a>
+                    </li>
+                    </li>
+                {% endif %}
+                {% if not current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ url_for('register') }}>Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('features') }}">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('pricing') }}">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ url_for('login') }}>Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success" role="alert">
-        {{ message }}
-        </div>
-    {% endfor %}
+    <div class="container-fluid mt-3">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
-{% endif %}
-{% endwith %}
+            {% endif %}
+        {% endwith %}
     </div>
 
     {% if current_user.is_authenticated %}
-    <div class="container-fluid border-right border-dark col-2 float-left">
-    <div class="row nav-fill nav-pills">
-        <ul class="text-center">
-            <br>
-            <a class="nav-link active" href={{ url_for('inventory') }}>Inventory</a>
-            <br>
-            <a class="nav-link active" href={{ url_for('watchlist') }}>Watch List</a>
-            <br>
-            <a class="nav-link active" href={{ url_for('listings') }}>Listing</a>
-            <br>
-            <a class="nav-link active" href={{ url_for('search')}}>Compare Prices</a>
-            <br>
-            <a class="nav-link active" href="#">Account Settings</a>
-            <br>
-        </ul>
+        <div class="container-fluid border-right border-dark">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="nav nav-pills flex-column flex-sm-row">
+                        <a class="flex-sm-fill text-sm-center nav-link active ml-3 mr-3 mb-4 mt-4"
+                           href={{ url_for('inventory') }}>Add to Inventory</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active ml-3 mr-3 mb-4 mt-4"
+                           href={{ url_for('watchlist') }}>Listing Watch List</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active ml-3 mr-3 mb-4 mt-4"
+                           href={{ url_for('listings') }}>My Items</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active ml-3 mr-3 mb-4 mt-4"
+                           href={{ url_for('search') }}>Compare Prices</a>
+                        <a class="flex-sm-fill text-sm-center nav-link active ml-3 mr-3 mb-4 mt-4" href="#">Account
+                            Settings</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
 
-    </div>
-    </div>
+        {#    <div class="container-fluid border-right border-dark col-2 float-left">#}
+        {#    <div class="row nav-fill nav-pills">#}
+        {#        <ul class="text-center">#}
+        {#            <br>#}
+        {#            <a class="nav-link active" href={{ url_for('inventory') }}>Inventory</a>#}
+        {#            <br>#}
+        {#            <a class="nav-link active" href={{ url_for('watchlist') }}>Watch List</a>#}
+        {#            <br>#}
+        {#            <a class="nav-link active" href={{ url_for('listings') }}>Listing</a>#}
+        {#            <br>#}
+        {#            <a class="nav-link active" href={{ url_for('search')}}>Compare Prices</a>#}
+        {#            <br>#}
+        {#            <a class="nav-link active" href="#">Account Settings</a>#}
+        {#            <br>#}
+        {#        </ul>#}
+        {##}
+        {#    </div>#}
+        {#    </div>#}
     {% endif %}
     {% block app_content %} {% endblock %}
 

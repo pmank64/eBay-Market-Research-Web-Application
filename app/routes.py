@@ -22,26 +22,25 @@ def index():
         keywordList = ["macbook+pro", "windows+10", "books", "fishing+pole", "inner+tube"]
         keyword = keywordList[random.randint(0,4)]
         APPID = "PeterMan-peterman-PRD-c13dad11d-1a18c02a"
-
         ebay_store = current_user.ebay_store
-
-        newurl = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsIneBayStores&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=PeterMan-peterman-PRD-c13dad11d-1a18c02a&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&storeName=" + ebay_store + "&outputSelector=StoreInfo&itemFilter(0).name=MinPrice&itemFilter(0).value=11.00&itemFilter(0).paramName=Currency&itemFilter(0).paramValue=USD&itemFilter(1).name=MaxPrice&itemFilter(1).value=25.00&itemFilter(1).paramName=Currency&itemFilter(1).paramValue=USD&paginationInput.entriesPerPage=10";
-
+        newurl = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsIneBayStores&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=PeterMan-peterman-PRD-c13dad11d-1a18c02a&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&storeName=" + ebay_store + "&outputSelector=StoreInfo&itemFilter(0).name=MinPrice&itemFilter(0).value=11.00&itemFilter(0).paramName=Currency&itemFilter(0).paramValue=USD&itemFilter(1).name=MaxPrice&itemFilter(1).value=25.00&itemFilter(1).paramName=Currency&itemFilter(1).paramValue=USD&paginationInput.entriesPerPage=50";
         totalValue = 0.0
-        averageValue = 0
-
-        # url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=" + APPID + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=" + keyword + "&itemFilter(0).name=ListingType&itemFilter(0).value=All&paginationInput.pageNumber=1"
+        averageValue = 0.0
         itemlist = []
         with urllib.request.urlopen(newurl) as newurl:
             data = json.loads(newurl.read().decode())
-            x = 0
-            while x < 10:
-                itemlist.append(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][x])
-                totalValue += float(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][x]["sellingStatus"][0]["currentPrice"][0]["__value__"])
-                x = x + 1
-        arraylength = int(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["@count"])
-        averageValue = totalValue/arraylength
-        return render_template('index.html', title='Home', itemData=itemlist, totalValue=totalValue, averageValue=averageValue)
+            arraylength = int(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["@count"])
+            if arraylength >= 30:
+                arraylength = 30
+            count = 0
+            if arraylength > 0:
+                while count < arraylength:
+                    itemlist.append(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][count])
+                    totalValue += float(data["findItemsIneBayStoresResponse"][0]["searchResult"][0]["item"][count]["sellingStatus"][0]["currentPrice"][0]["__value__"])
+                    count = count + 1
+        averageValue = round(totalValue/arraylength,2)
+        totalValue = round(totalValue, 2)
+        return render_template('index.html', title='Home', itemData=itemlist, totalValue=totalValue, averageValue=averageValue, arraylength=arraylength)
     return render_template('index.html', title='Home')
 
 
@@ -153,10 +152,6 @@ def search():
     return render_template('itemSearch.html', title='Item Search', itemData=itemlist, form=form, color=colorList, arraylength=arraylength)
 
 
-    # https://open.api.ebay.com/shopping?callname=GetAccount&appid=PeterMan-peterman-PRD-c13dad11d-1a18c02a&version=1063&siteid=0&responseencoding=JSON
-
-
-
 @app.route('/inventory.html', methods=['GET', 'POST'])
 def inventory():
 
@@ -180,7 +175,7 @@ def watchlist():
         items = WatchList.query.filter_by(user_id=user_id).all()
 
         checker = False
-        results = WatchList.query.filter_by(user_id=1).all()
+        results = WatchList.query.filter_by(user_id=current_user.id).all()
         if len(results) == 0:
             checker = True
 

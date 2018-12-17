@@ -3,57 +3,64 @@
 
 
 {% block app_content %}
-    <div class="col-10 offset-2 ">
-        {{ wtf.quick_form(form) }}
-    {% if  arraylength > 0 %}
-    <h4>Results Displayed: {{arraylength}} </h4>
-        <div class="card-columns">
-            <br>
-            {% for x in range(arraylength) %}
-                {% if  itemData[x]["sellingStatus"][0]["sellingState"][0] == "EndedWithoutSales" %}
-                    <div class="card {{ color[0] }}">
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {{ wtf.quick_form(form) }}
+                {% if  arraylength > 0 %}
+                    <h4 class="mt-3">Results Displayed: {{ arraylength }} </h4>
+                    <div class="card-columns">
+                        <br>
+                        {% for x in range(arraylength) %}
+                            {% if  itemData[x]["sellingStatus"][0]["sellingState"][0] == "EndedWithoutSales" %}
+                                <div class="card {{ color[0] }}">
+                            {% endif %}
+                            {% if  itemData[x]["sellingStatus"][0]["sellingState"][0] == "EndedWithSales" %}
+                                <div class="card {{ color[1] }}">
+                            {% endif %}
+                        {% if 'galleryURL' in itemData[x] %}
+                            <img class="card-img-top w-25 pt-4 pl-4" src="{{ itemData[x]["galleryURL"][0] }}"
+                                 alt="Card image cap">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
+                            <p class="card-text">
+                            <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
+                            <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
+                            <li>Result: {{ itemData[x]["sellingStatus"][0]["sellingState"][0] }}</li>
+                            </p>
+                            <a href="{{ itemData[x]["viewItemURL"][0] }}" target=”_blank”>
+                                <button class="btn btn-primary" type="submit">View Item</button>
+                            </a>
+                            <form action="/getitem" name="product-form">
+                                <input type="hidden" type="text" id="title" name="title"
+                                       value="{{ itemData[x]["title"][0] }}">
+                                <input type="hidden" type="text" id="price" name="price"
+                                       value="{{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}">
+                                <input type="hidden" type="text" id="category" name="category"
+                                       value="{{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}">
+                                <input type="hidden" type="text" id="state" name="state"
+                                       value="{{ itemData[x]["sellingStatus"][0]["sellingState"][0] }}">
+                                {% if 'galleryURL' in itemData[x] %}
+                                    <input type="hidden" type="text" id="imgurl" name="imgurl"
+                                           value="{{ itemData[x]["galleryURL"][0] }}">
+                                {% endif %}
+                                <input type="hidden" type="text" id="siteurl" name="siteurl"
+                                       value="{{ itemData[x]["viewItemURL"][0] }}">
+                                <input type="submit" value="Add To Watchlist" class="btn btn-info mt-3">
+                            </form>
+                        </div>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
-                {% if  itemData[x]["sellingStatus"][0]["sellingState"][0] == "EndedWithSales" %}
-                    <div class="card {{ color[1] }}">
+                {% if  arraylength == 0 %}
+                    <h1>No Results</h1>
                 {% endif %}
-                {% if 'galleryURL' in itemData[x] %}
-            <img class="card-img-top w-25 pt-4 pl-4" src="{{ itemData[x]["galleryURL"][0] }}" alt="Card image cap">
-                {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ itemData[x]["title"][0] }}</h5>
-                <p class="card-text">
-                <li>Category: {{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}</li>
-                <li>Price: {{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}</li>
-                <li>Result: {{ itemData[x]["sellingStatus"][0]["sellingState"][0] }}</li>
-                </p>
-                <a href="{{ itemData[x]["viewItemURL"][0] }}" target=”_blank”>
-                    <button class="btn btn-primary" type="submit">View Item</button>
-                </a>
-                <form action="/getitem" name="product-form">
-                    <input type="hidden" type="text" id="title" name="title" value="{{ itemData[x]["title"][0] }}">
-                    <input type="hidden" type="text" id="price" name="price"
-                           value="{{ itemData[x]["sellingStatus"][0]["currentPrice"][0]["__value__"] }}">
-                    <input type="hidden" type="text" id="category" name="category"
-                           value="{{ itemData[x]["primaryCategory"][0]["categoryName"][0] }}">
-                    <input type="hidden" type="text" id="state" name="state"
-                           value="{{ itemData[x]["sellingStatus"][0]["sellingState"][0] }}">
-                    {% if 'galleryURL' in itemData[x] %}
-                    <input type="hidden" type="text" id="imgurl" name="imgurl"
-                           value="{{ itemData[x]["galleryURL"][0] }}">
-                    {% endif %}
-                    <input type="hidden" type="text" id="siteurl" name="siteurl"
-                           value="{{ itemData[x]["viewItemURL"][0] }}">
-                    <input type="submit" value="Add To Watchlist" class="btn btn-info mt-3">
-                </form>
-            </div>
-            </div>
-            {% endfor %}
             </div>
         </div>
-    {% endif %}
-    {% if  arraylength == 0 %}
-        <h1>No Results</h1>
-    {% endif %}
-    </div>
     </div>
 {% endblock %}

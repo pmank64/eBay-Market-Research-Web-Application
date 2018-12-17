@@ -3,13 +3,14 @@
 
 
 {% block app_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
     <br>
     <h1> Listings </h1>
     <br>
-    <div class="row">
-        <div class="col-md-4 offset-1">
-
-              <table class="table col-md-1">
+              <table class="table ">
                 <thead class="thead-light">
                  <tr>
                   <th scope="col">Item Name</th>
@@ -22,12 +23,12 @@
                   {% if item_count > 0 %}
                   {% for item in items %}
                   <tr>
-                      <td>{{ item.item_name }}</td>
-                      <td>$.{{ item.item_price }}</td>
+                      <td class="pt-4">{{ item.item_name }}</td>
+                      <td class="pt-4">$.{{ item.item_price }}</td>
                       <td>
                           <form class="float-left" action="/deleteItem" name="item-inventory">
                             <input type="hidden" type="text" id="item_id" name="item_id" value="{{ item.id }}">
-                            <input type="submit" value="Delete" class="btn btn-info mt-3 float-right">
+                            <input type="submit" value="Delete" class="btn btn-info float-right">
                         </form>
                       </td>
                   </tr>
@@ -36,7 +37,7 @@
             {%  endfor %}
 
             {% else %}
-                <h1> No Items Stored</h1>
+                <h3> No Items Stored</h3>
 
             {% endif %}
                 </table>
@@ -44,4 +45,5 @@
 
         </div>
     </div>
+       </div>
 {% endblock %}
