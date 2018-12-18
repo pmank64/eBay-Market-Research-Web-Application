@@ -2,6 +2,8 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap1.css') }}">
+
+
 {% endblock %}
 
 {% block title %}
@@ -57,7 +59,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid mt-3">
+    <div id='#delete' class="container-fluid mt-3">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -89,6 +91,31 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+          var op = 1;
+            var element = document.getElementById('#delete');
+            function closeModal() {
+                window.setInterval(function(){
+                    element.style.opacity = op;
+                op = op - 0.01;
+                 },50);
+            }
+
+                var myVar;
+
+                function myFunction() {
+                    myVar = setInterval(alertFunc, 5000);
+                }
+                function alertFunc() {
+                    document.getElementById("#delete").remove()
+                    console.log("run")
+                }
+                closeModal()
+                myFunction()
+
+        </script>
 
         {#    <div class="container-fluid border-right border-dark col-2 float-left">#}
         {#    <div class="row nav-fill nav-pills">#}

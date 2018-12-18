@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from datetime import datetime
 from werkzeug.urls import url_parse
 from app.models import User, Item, WatchList
-from app.forms import LoginForm, RegistrationForm, SearchForm, ItemForm, AccountChange, EmailChange, StoreChange
+from app.forms import LoginForm, RegistrationForm, SearchForm, ItemForm, AccountChangeForm, EmailChangeForm, StoreChangeForm
 import urllib.request, json
 import random
 
@@ -241,20 +241,17 @@ def deleteWatchList():
     return redirect('watchlist.html')
 
 
-
 @app.route('/accountSettings', methods=['GET', 'POST'])
 def account_settings():
 
-    accountForm = AccountChange(request.form)
+    accountForm = AccountChangeForm(request.form)
 
     if accountForm.validate_on_submit():
         current_name = accountForm.current_account_name.data
         new_name = accountForm.new_account_name.data
         confirm_name = accountForm.confirm_new_name.data
 
-
         check_username = User.query.filter_by(username=new_name).first()
-
 
         if current_name != current_user.username:
             flash("Current Username doesn't match")
@@ -267,8 +264,37 @@ def account_settings():
                 user = User.query.get(current_user.id)
                 user.username = new_name
                 db.session.commit()
+                flash("Username changed successfully")
+                return redirect(url_for('index'))
             else:
                 flash("Username already taken")
-                redirect('account_settings')
+                return redirect(url_for('account_settings'))
 
-    return render_template('accountSettings.html', title="Account Settings", accountForm=accountForm)
+    storeForm = StoreChangeForm(request.form)
+
+    if storeForm.validate_on_submit():
+        current_store = storeForm.current_store.data
+        new_store = storeForm.new_account_store.data
+        confirm_store = storeForm.confirm_new_store_name.data
+
+        check_store_name = User.query.filter_by(ebay_store=new_store).first()
+
+        if current_store != current_user.ebay_store:
+            flash("Current Store doesn't match")
+            redirect(url_for('account_settings'))
+
+        elif new_store != confirm_store:
+            flash("New Store doesn't match")
+            redirect(url_for('account_settings'))
+        elif current_store == current_user.ebay_store and new_store == confirm_store:
+            if check_store_name is None:
+                user = User.query.get(current_user.id)
+                user.ebay_store = new_store
+                db.session.commit()
+                flash("Store Name changed successfully")
+                return redirect(url_for('index'))
+            else:
+                flash("Store already taken")
+                return redirect(url_for('account_settings'))
+
+    return render_template('accountSettings.html', title="Account Settings", accountForm=accountForm,storeForm=storeForm)

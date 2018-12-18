@@ -45,22 +45,24 @@ class ItemForm(FlaskForm):
     submit = SubmitField("Add")
 
 
-class AccountChange(FlaskForm):
+class AccountChangeForm(FlaskForm):
     current_account_name = StringField("Enter Current account name", validators=[DataRequired()])
     new_account_name = StringField("Enter new Account name", validators=[DataRequired()])
     confirm_new_name = StringField("Confirm new Account name", validators=[DataRequired()])
     submit = SubmitField("Change")
 
 
-class EmailChange(FlaskForm):
+class EmailChangeForm(FlaskForm):
     current_email = StringField("Enter Current Email", validators=[DataRequired()])
     new_email = StringField("Enter New Email", validators=[DataRequired()])
     confirm_new_email = StringField("Confirm New Email", validators=[DataRequired()])
 
 
-class StoreChange(FlaskForm):
+class StoreChangeForm(FlaskForm):
+    current_store = StringField("Enter Current Store Name", validators=[DataRequired()])
     new_account_store = StringField("Enter New Store Name", validators=[DataRequired()])
     confirm_new_store_name = StringField("Confirm New Store Name", validators=[DataRequired()])
+    submit =SubmitField("Change")
 
 
 
