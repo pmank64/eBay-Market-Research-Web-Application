@@ -17,3 +17,5 @@ The intended user of this software is a person who is selling products on eBay. 
 ### Project Origin
 
 The idea for this software came about from one of our team members who has sold products on eBay in the past. While eBay has advanced search functionality to view completed listings and understand how products are selling, it is not an efficient method if you have a large number of listings. In addition, there is no easy way to save listings that you have found while searching.
+
+View the [eBay Developers Program docs](https://developer.ebay.com/docs)
